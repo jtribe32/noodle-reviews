@@ -103,7 +103,7 @@ export default function Home({ data }) {
       <main>
         <div className={tw`h-4`} />
         <div className={tw`flex gap-2 items-center`}>
-          <h1 className={tw`text-2xl`}>Let the Best Noodles Win!!</h1>
+          <h1 className={tw`text-2xl`}>Let the Best Noodles Win!</h1>
           <a
             href="https://docs.google.com/spreadsheets/d/1K3WzWs3j3otUZtbSC2zcATwANqg7RqJ5xppmTkcMoKY/edit?usp=sharing"
             target="_blank"
