@@ -7,69 +7,69 @@ import { google } from "googleapis";
 import { tw } from "twind";
 import { Form } from "../Components/Form.tsx";
 
-export async function getServerSideProps() {
-  const auth = await google.auth.getClient({
-    scopes: ["https://www.googleapis.com/auth/spreadsheets.readonly"],
-  });
+// export async function getServerSideProps() {
+//   const auth = await google.auth.getClient({
+//     scopes: ["https://www.googleapis.com/auth/spreadsheets.readonly"],
+//   });
 
-  const sheets = google.sheets({ version: "v4", auth });
+//   const sheets = google.sheets({ version: "v4", auth });
 
-  const range = `Sheet1!R2C1:R1000C7`;
+//   const range = `Sheet1!R2C1:R1000C7`;
 
-  const response = await sheets.spreadsheets.values.get({
-    spreadsheetId: process.env.SHEET_ID,
-    range,
-  });
+//   const response = await sheets.spreadsheets.values.get({
+//     spreadsheetId: process.env.SHEET_ID,
+//     range,
+//   });
 
-  const data = response.data.values?.map((row) => {
-    return {
-      label: row[1],
-      data: [
-        {
-          Timestamp: row[0],
-          Name: row[1],
-          Taste: Number(row[2]),
-          Spice: Number(row[3]),
-          Size: Number(row[4]),
-          count: 1,
-        },
-      ],
-    };
-  });
+//   const data = response.data.values?.map((row) => {
+//     return {
+//       label: row[1],
+//       data: [
+//         {
+//           Timestamp: row[0],
+//           Name: row[1],
+//           Taste: Number(row[2]),
+//           Spice: Number(row[3]),
+//           Size: Number(row[4]),
+//           count: 1,
+//         },
+//       ],
+//     };
+//   });
 
-  const results = {};
+//   const results = {};
 
-  data?.forEach((row) => {
-    if (row.label) {
-      if (!results[row.label]) {
-        results[row.label] = row;
-      } else {
-        results[row.label].data[0].Taste += row.data[0].Taste;
-        results[row.label].data[0].Spice += row.data[0].Spice;
-        results[row.label].data[0].Size += row.data[0].Size;
-        results[row.label].data[0].count += 1;
-      }
-    }
-  });
+//   data?.forEach((row) => {
+//     if (row.label) {
+//       if (!results[row.label]) {
+//         results[row.label] = row;
+//       } else {
+//         results[row.label].data[0].Taste += row.data[0].Taste;
+//         results[row.label].data[0].Spice += row.data[0].Spice;
+//         results[row.label].data[0].Size += row.data[0].Size;
+//         results[row.label].data[0].count += 1;
+//       }
+//     }
+//   });
 
-  return {
-    props: {
-      data: Object.values(results).map((row) => {
-        return {
-          ...row,
-          data: row.data.map((data) => {
-            return {
-              ...data,
-              Spice: data.Spice / data.count,
-              Taste: data.Taste / data.count,
-              Size: data.Size / data.count,
-            };
-          }),
-        };
-      }),
-    },
-  };
-}
+//   return {
+//     props: {
+//       data: Object.values(results).map((row) => {
+//         return {
+//           ...row,
+//           data: row.data.map((data) => {
+//             return {
+//               ...data,
+//               Spice: data.Spice / data.count,
+//               Taste: data.Taste / data.count,
+//               Size: data.Size / data.count,
+//             };
+//           }),
+//         };
+//       }),
+//     },
+//   };
+// }
 
 export default function Home({ data }) {
   const primaryAxis = React.useMemo(
