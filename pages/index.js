@@ -48,7 +48,7 @@ export const getStaticProps = async () => {
   };
 };
 
-export default function Home({ data, results }) {
+export default function Home({ data }) {
   const chartData = React.useMemo(
     () =>
       data.map((d) => {
