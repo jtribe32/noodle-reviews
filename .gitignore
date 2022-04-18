@@ -34,3 +34,4 @@ yarn-error.log*
 #google
 secrets.json
 .env
+utils/db/serviceAccountKey.json

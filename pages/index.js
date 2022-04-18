@@ -1,53 +1,34 @@
 import Head from "next/head";
 import Image from "next/image";
 import styles from "../styles/Home.module.css";
-import { Chart } from "react-charts";
+
 import React from "react";
-import { google } from "googleapis";
+import db from "../utils/db";
 import { tw } from "twind";
 import { Form } from "../Components/Form.tsx";
+import { Chart } from "../Components/Chart";
 
-export async function getServerSideProps() {
-  const auth = await google.auth.getClient({
-    scopes: ["https://www.googleapis.com/auth/spreadsheets.readonly"],
-  });
-
-  const sheets = google.sheets({ version: "v4", auth });
-
-  const range = `Sheet1!R2C1:R1000C7`;
-
-  const response = await sheets.spreadsheets.values.get({
-    spreadsheetId: process.env.SHEET_ID,
-    range,
-  });
-
-  const data = response.data.values?.map((row) => {
-    return {
-      label: row[1],
-      data: [
-        {
-          Timestamp: row[0],
-          Name: row[1],
-          Taste: Number(row[2]),
-          Spice: Number(row[3]),
-          Size: Number(row[4]),
-          count: 1,
-        },
-      ],
-    };
-  });
+export const getStaticProps = async () => {
+  const entries = await db
+    .collection("entries")
+    .orderBy("created", "desc")
+    .get();
+  const data = entries.docs.map((entry) => ({
+    id: entry.id,
+    ...entry.data(),
+  }));
 
   const results = {};
 
   data?.forEach((row) => {
-    if (row.label) {
-      if (!results[row.label]) {
-        results[row.label] = row;
+    if (row.name) {
+      if (!results[row.name]) {
+        results[row.name] = { ...row, count: 1 };
       } else {
-        results[row.label].data[0].Taste += row.data[0].Taste;
-        results[row.label].data[0].Spice += row.data[0].Spice;
-        results[row.label].data[0].Size += row.data[0].Size;
-        results[row.label].data[0].count += 1;
+        results[row.name].taste += row.taste;
+        results[row.name].spice += row.spice;
+        results[row.name].size += row.size;
+        results[row.name].count += 1;
       }
     }
   });
@@ -57,41 +38,25 @@ export async function getServerSideProps() {
       data: Object.values(results).map((row) => {
         return {
           ...row,
-          data: row.data.map((data) => {
-            return {
-              ...data,
-              Spice: data.Spice / data.count,
-              Taste: data.Taste / data.count,
-              Size: data.Size / data.count,
-            };
-          }),
+          taste: row.taste / row.count,
+          spice: row.spice / row.count,
+          size: row.size / row.count,
         };
       }),
     },
+    revalidate: 10,
   };
-}
+};
 
-export default function Home({ data }) {
-  const primaryAxis = React.useMemo(
-    () => ({
-      getValue: (datum) => datum.Spice,
-      hardMax: 100,
-      hardMin: 0,
-    }),
-    []
+export default function Home({ data, results }) {
+  const chartData = React.useMemo(
+    () =>
+      data.map((d) => {
+        return { label: d.name, data: [d] };
+      }),
+    [data]
   );
 
-  const secondaryAxes = React.useMemo(
-    () => [
-      {
-        getValue: (datum) => datum.Taste,
-        elementType: "bubble",
-        hardMax: 100,
-        hardMin: 0,
-      },
-    ],
-    []
-  );
   return (
     <div className={styles.container}>
       <Head>
@@ -104,57 +69,11 @@ export default function Home({ data }) {
         <div className={tw`h-4`} />
         <div className={tw`flex gap-2 items-center`}>
           <h1 className={tw`text-2xl`}>Let the Best Noodles Win!</h1>
-          <a
-            href="https://docs.google.com/spreadsheets/d/1K3WzWs3j3otUZtbSC2zcATwANqg7RqJ5xppmTkcMoKY/edit?usp=sharing"
-            target="_blank"
-            rel="noreferrer"
-          >
-            <button
-              className={tw`px-4 py-2 bg-blue-500 text-white rounded hover:(opacity-90)`}
-            >
-              View Data
-            </button>
-          </a>
         </div>
 
         <div className={tw`h-4`} />
         <div className={tw`h-[50rem]`}>
-          <Chart
-            options={{
-              data,
-              primaryAxis,
-              secondaryAxes,
-              interactionMode: "closest",
-              tooltip: {
-                render: (tooltip) => {
-                  const datum = tooltip.focusedDatum?.originalDatum;
-
-                  return (
-                    <div className={tw`shadow p-4 bg-white text-center`}>
-                      <div className={tw`text-lg`}>
-                        <strong>{datum?.Name}</strong>
-                      </div>
-                      <div>
-                        <strong>Taste:</strong> {datum?.Taste}
-                      </div>
-                      <div>
-                        <strong>Spice:</strong> {datum?.Spice}
-                      </div>
-                      <div>
-                        <strong>Size:</strong> {datum?.Size}
-                      </div>
-                      <div>
-                        <strong>Votes:</strong> {datum?.count}
-                      </div>
-                    </div>
-                  );
-                },
-              },
-              getDatumStyle: (datum) => ({
-                circle: { r: datum.originalDatum.Size * 5 },
-              }),
-            }}
-          />
+          {data ? <Chart data={chartData} /> : <div>Loading...</div>}
         </div>
         <div className={tw`h-4`} />
         <Form />

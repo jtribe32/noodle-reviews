@@ -1,33 +1,25 @@
 import { useForm, useField } from "react-form";
 import React from "react";
 import { tw } from "twind";
-import moment from "moment";
+import axios from "axios";
 import { useRouter } from "next/router";
 
 export function Form() {
   const router = useRouter();
   const { Form: NoodlesForm } = useForm({
     onSubmit: async (values) => {
-      console.log(values);
-      setIsSubmitted(true);
-
-      const now = new Date();
-      const response = await fetch("/api/submit", {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          ...values,
-          timeStamp: moment(now).format("YYYY-MM-DD HH:mm"),
-        }),
-      });
-
-      if (response) {
+      const realValues = {
+        ...values,
+        size: Number(values.size),
+        spice: Number(values.spice),
+        taste: Number(values.taste),
+      };
+      const res = await axios.post("/api/entry", realValues);
+      if (res) {
         router.replace(router.asPath);
       }
-      setIsSubmitted(false);
+
+      setIsSubmitted(true);
     },
   });
 
