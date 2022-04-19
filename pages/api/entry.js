@@ -2,9 +2,7 @@ import db from "../../utils/db";
 
 const entry = async (req, res) => {
   try {
-    const { slug } = req.body;
     const entries = await db.collection("entries").get();
-    const entriesData = entries.docs.map((entry) => entry.data());
 
     const { id } = await db.collection("entries").add({
       ...req.body,

@@ -31,7 +31,8 @@ export function Form() {
       <div className={tw`h-2`} />
       <NoodlesForm>
         <div className={tw`flex gap-2`}>
-          <label> Name</label>
+          <label> Noodles</label>
+
           <Field type="text" field="name" isSubmitted={isSubmitted} />
         </div>
         <div className={tw`h-2`} />
@@ -58,7 +59,7 @@ export function Form() {
         </div>
         <div className={tw`h-2`} />
         <div className={tw`flex gap-2`}>
-          <label>Size</label>
+          <label>Packages Needed</label>
           <Field type="number" field="size" isSubmitted={isSubmitted} />
         </div>
         <div className={tw`h-2`} />

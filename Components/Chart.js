@@ -33,9 +33,15 @@ export function Chart({ data }) {
         tooltip: {
           render: (tooltip) => {
             const datum = tooltip.focusedDatum?.originalDatum;
-
+            console.log(datum);
             return (
               <div className={tw`shadow p-4 bg-white text-center`}>
+                <img
+                  src={datum?.Img}
+                  height="200px"
+                  width={"200px"}
+                  alt="picture of noodles"
+                />
                 <div className={tw`text-lg`}>
                   <strong>{datum?.name}</strong>
                 </div>
@@ -46,7 +52,7 @@ export function Chart({ data }) {
                   <strong>Spice:</strong> {datum?.spice}
                 </div>
                 <div>
-                  <strong>Size:</strong> {datum?.size}
+                  <strong>Packages Needed:</strong> {datum?.size}
                 </div>
                 <div>
                   <strong>Votes:</strong> {datum?.count}

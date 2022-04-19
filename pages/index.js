@@ -29,6 +29,7 @@ export const getStaticProps = async () => {
         results[row.name].spice += row.spice;
         results[row.name].size += row.size;
         results[row.name].count += 1;
+        results[row.name].Img = row.Img;
       }
     }
   });
@@ -77,6 +78,7 @@ export default function Home({ data }) {
         </div>
         <div className={tw`h-4`} />
         <Form />
+        <div className={tw`h-8`} />
       </main>
     </div>
   );
