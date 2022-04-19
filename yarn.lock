@@ -3260,6 +3260,11 @@ uri-js@^4.2.2:
   dependencies:
     punycode "^2.1.0"
 
+use-select@^0.0.6:
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/use-select/-/use-select-0.0.6.tgz#6af52e8e8e82a6e39c9f0e52697e171f0cada277"
+  integrity sha512-emd+8DnjPzrhS604qclv5cKiVfCYb6vPQsBmABodglgdF7mP+kNSH9Tei02M0WOtfP4aJ1pCXuvk5kEtbPT1vQ==
+
 util-deprecate@^1.0.1, util-deprecate@~1.0.1:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/util-deprecate/-/util-deprecate-1.0.2.tgz#450d4dc9fa70de732762fbd2d4a28981419a0ccf"

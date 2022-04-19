@@ -77,8 +77,8 @@ export default function Home({ data }) {
           {data ? <Chart data={chartData} /> : <div>Loading...</div>}
         </div>
         <div className={tw`h-4`} />
-        <Form />
-        <div className={tw`h-8`} />
+        <Form data={data} />
+        <div className={tw`h-64`} />
       </main>
     </div>
   );

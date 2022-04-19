@@ -33,7 +33,7 @@ export function Chart({ data }) {
         tooltip: {
           render: (tooltip) => {
             const datum = tooltip.focusedDatum?.originalDatum;
-            console.log(datum);
+
             return (
               <div className={tw`shadow p-4 bg-white text-center`}>
                 <img

@@ -18,7 +18,8 @@
     "react-charts": "^3.0.0-beta.36",
     "react-dom": "18.0.0",
     "react-form": "^4.0.1",
-    "twind": "^0.16.16"
+    "twind": "^0.16.16",
+    "use-select": "^0.0.6"
   },
   "devDependencies": {
     "eslint": "8.13.0",

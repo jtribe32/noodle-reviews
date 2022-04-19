@@ -3,8 +3,9 @@ import React from "react";
 import { tw } from "twind";
 import axios from "axios";
 import { useRouter } from "next/router";
+import SelectField from "./SelectField.js";
 
-export function Form() {
+export function Form({ data }) {
   const router = useRouter();
   const { Form: NoodlesForm } = useForm({
     onSubmit: async (values) => {
@@ -25,15 +26,22 @@ export function Form() {
 
   const [isSubmitted, setIsSubmitted] = React.useState(false);
 
+  const noodleOptions = data.map((noodle) => {
+    return { label: noodle.name, value: noodle.name, img: noodle.Img };
+  });
+
   return (
-    <>
+    <div>
       <div className={tw`text-xl`}>Submit Your Vote!</div>
       <div className={tw`h-2`} />
       <NoodlesForm>
         <div className={tw`flex gap-2`}>
           <label> Noodles</label>
-
-          <Field type="text" field="name" isSubmitted={isSubmitted} />
+          <SelectField
+            options={noodleOptions}
+            field="name"
+            isSubmitted={isSubmitted}
+          />
         </div>
         <div className={tw`h-2`} />
         <div className={tw`flex gap-2`}>
@@ -69,7 +77,7 @@ export function Form() {
           Submit
         </button>
       </NoodlesForm>
-    </>
+    </div>
   );
 }
 
