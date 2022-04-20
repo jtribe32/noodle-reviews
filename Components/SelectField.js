@@ -6,7 +6,7 @@ import { Select } from "./Select";
 //
 
 export default React.forwardRef(function SelectField(
-  { onChange, ...props },
+  { onChange, isSubmitted, ...props },
   ref
 ) {
   const [field, formProps, rest] = splitFormProps(props);
