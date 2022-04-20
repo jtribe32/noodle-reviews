@@ -67,17 +67,16 @@ export default function Home({ data }) {
 
       <main>
         <div className={tw`h-4`} />
-        <div className={tw`flex gap-2 items-center`}>
+        <div className={tw`flex gap-2 items-center `}>
           <h1 className={tw`text-2xl`}>Let the Best Noodles Win!</h1>
         </div>
 
-        <div className={tw`h-4`} />
-        <div className={tw`h-[50rem]`}>
+        <div className={tw`h-[50rem] `}>
           {data ? <Chart data={chartData} /> : <div>Loading...</div>}
         </div>
-        <div className={tw`h-4`} />
+        <div className={tw`h-32`} />
         <Form data={data} />
-        <div className={tw`h-64`} />
+        <div className={tw`h-32`} />
       </main>
     </div>
   );
