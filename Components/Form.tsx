@@ -9,6 +9,7 @@ export function Form({ data }) {
   const router = useRouter();
   const { Form: NoodlesForm } = useForm({
     onSubmit: async (values) => {
+      setIsSubmitted(true);
       const realValues = {
         ...values,
         size: Number(values.size),
@@ -20,8 +21,6 @@ export function Form({ data }) {
       if (res) {
         router.replace(router.asPath);
       }
-
-      setIsSubmitted(true);
     },
   });
 
