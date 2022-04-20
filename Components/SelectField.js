@@ -17,6 +17,12 @@ export default React.forwardRef(function SelectField(
     meta: { error, isTouched },
   } = useField(field, formProps);
 
+  React.useEffect(() => {
+    if (isSubmitted) {
+      setValue(null);
+    }
+  }, [isSubmitted]);
+
   const renderProps = {
     clearable: false,
     ...rest,
