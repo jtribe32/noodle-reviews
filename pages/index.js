@@ -8,7 +8,7 @@ import { tw } from "twind";
 import { Form } from "../Components/Form.tsx";
 import { Chart } from "../Components/Chart";
 
-export const getStaticProps = async () => {
+export const getServerSideProps = async () => {
   const entries = await db
     .collection("entries")
     .orderBy("created", "desc")
