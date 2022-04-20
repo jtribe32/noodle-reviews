@@ -46,13 +46,13 @@ export function Chart({ data }) {
                   <strong>{datum?.name}</strong>
                 </div>
                 <div>
-                  <strong>Taste:</strong> {(datum?.taste).toFixed(2)}
+                  <strong>Taste:</strong> {datum?.taste?.toFixed(2)}
                 </div>
                 <div>
-                  <strong>Spice:</strong> {(datum?.spice).toFixed(2)}
+                  <strong>Spice:</strong> {datum?.spice?.toFixed(2)}
                 </div>
                 <div>
-                  <strong>Packages Needed:</strong> {(datum?.size).toFixed(2)}
+                  <strong>Packages Needed:</strong> {datum?.size?.toFixed(2)}
                 </div>
                 <div>
                   <strong>Votes:</strong> {datum?.count}
