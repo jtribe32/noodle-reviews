@@ -16,6 +16,7 @@ export function Form({ data }) {
         taste: Number(values.taste),
       };
       const res = await axios.post("/api/entry", realValues);
+      await new Promise((resolve) => setTimeout(resolve, 1000));
       if (res) {
         router.replace(router.asPath);
       }
